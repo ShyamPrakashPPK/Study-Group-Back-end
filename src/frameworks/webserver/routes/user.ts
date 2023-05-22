@@ -8,8 +8,11 @@ const userRouter = () => {
     const router = express.Router();
 
     const controller = userController(userDbRepository, userRepositoryMongoDB)
+
     
     router.get('/', controller.getUser)
+
+    router.get('/all-users',controller.getAllUser)
     
     return router 
 }

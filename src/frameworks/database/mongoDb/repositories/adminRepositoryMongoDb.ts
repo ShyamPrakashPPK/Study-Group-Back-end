@@ -15,3 +15,5 @@ export const adminRepositoryMongoDB = () => {
 export type AdminRepositoryMongoDB = typeof adminRepositoryMongoDB;
 
 export type AdminRepositoryDbReturn = ReturnType<AdminRepositoryMongoDB>
+
+

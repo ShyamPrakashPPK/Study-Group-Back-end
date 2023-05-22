@@ -20,11 +20,16 @@ export const userRepositoryMongoDB = () => {
 
 
     const getUserById = async (id: string) =>
-        await User.findById(id).populate(["coursesAsStudent", "coursesAsTeacher"]);
+        await User.findById(id);
 
     const getUser = async (id: string) =>
         await User.findById(id)
 
+    const getAllUser = async () => {
+        await User.find()
+        console.log(getAllUser,"@@@studyGroupBackend/src/frameworks/database/mongoDb/repositories/userRepositoryMongoDb.ts");
+        
+    }
 
 
    
@@ -34,7 +39,8 @@ export const userRepositoryMongoDB = () => {
         getUserByEmail,
         addUser,
         getUserById,
-        getUser
+        getUser,
+        getAllUser
     };
 }
 

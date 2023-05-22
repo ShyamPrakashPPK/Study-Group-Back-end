@@ -4,6 +4,8 @@ import { UserDbInterface } from "../../application/repositories/userDbRepository
 import { findById } from "../../application/useCases/user/findById";
 import { UserRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/userRepositoryMongoDb";
 import { findByEmail } from "../../application/useCases/user/findByEmail";
+import { findAllUsers } from "../../application/useCases/user/findAllUsers";
+import { log } from "console";
 
 
 const userController = (
@@ -27,11 +29,18 @@ const userController = (
         const user = await findByEmail(email, dbRepositoryUser)
         res.json(user)
     })
+
+    const getAllUser = asyncHandler(async (req: Request, res: Response) => {
+        const users = await findAllUsers(dbRepositoryUser)
+        console.log(users,"<----------user @ src/adapters/controllers/userControllers.ts");       
+        res.json(users)
+    })
  
     
     return {
         getUser,
-        getUserByEmail
+        getUserByEmail,
+        getAllUser
     };
 };
 
