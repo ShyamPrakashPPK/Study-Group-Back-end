@@ -11,6 +11,8 @@ export const userRegister = async (
     userRepository: ReturnType<UserDbInterface>,
     authService: ReturnType<AuthServiceInterface>
 ) => {
+    console.log("reached here");
+    
     user.email = user.email.toLowerCase();
     const isExitingEmail = await userRepository.getUserByEmail(user.email);
     if (isExitingEmail) {

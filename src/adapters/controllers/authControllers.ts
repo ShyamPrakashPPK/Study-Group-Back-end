@@ -36,6 +36,8 @@ const authController = (
     })
 
     const registerUser = asyncHandler(async (req: Request, res: Response) => {
+        console.log("reached at register user");
+        
         const user: { firstName: string, lastName: string, email: string, password: string } = req.body
         const token = await userRegister(user, dbRepositoryUser, authService)
         res.json({
