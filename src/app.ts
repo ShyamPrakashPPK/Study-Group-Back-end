@@ -8,10 +8,16 @@ import errorHandlingMiddleware from './frameworks/webserver/middlewares/errorHan
 import AppError from './utils/appError';
 import { authService } from './frameworks/services/authService';
 import configKeys from './config';
+import { Server as SocketIOServer, Socket } from 'socket.io';
+
+
 
 
 const app: Application = express();
+
 const server = http.createServer(app);
+
+const io = new SocketIOServer();
 
 
 
@@ -31,6 +37,21 @@ app.use(errorHandlingMiddleware)
 app.all('*', (req, res, next: NextFunction) => {
     next(new AppError('Not Found', 404))
 });
+
+
+
+
+io.on('connection', (socket: Socket) => {
+    socket.on('join', (data) => {
+        socket.join(data.room);
+        socket.broadcast.to(data.room).emit('user joined');
+    });
+
+    socket.on('message', (data) => {
+        io.to(data.room).emit('new message', { user: data.user, message: data.message });
+    });
+});
+
 
 serverConfig(server).startServer();
 
