@@ -26,9 +26,7 @@ export const userRepositoryMongoDB = () => {
         await User.findById(id)
 
     const getAllUser = async () => {
-        await User.find()
-        console.log(getAllUser,"@@@studyGroupBackend/src/frameworks/database/mongoDb/repositories/userRepositoryMongoDb.ts");
-        
+        await User.find()        
     }
 
 
