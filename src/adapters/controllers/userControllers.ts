@@ -31,8 +31,10 @@ const userController = (
     })
 
     const getAllUser = asyncHandler(async (req: Request, res: Response) => {
+
         const users = await findAllUsers(dbRepositoryUser)
         console.log(users,"<----------user @ src/adapters/controllers/userControllers.ts");       
+
         res.json(users)
     })
  

@@ -9,13 +9,16 @@ export const userDbRepository = (repository: ReturnType<UserRepositoryMongoDB>) 
     const getUser = async (id: string) => await repository.getUser(id)
 
     const getAllUser = async () => await repository.getAllUser()
-    
+
+    const findAllUsers = (id:string) => repository.findAllUsers(id);
+
     
     return {
         getUserByEmail,
         addUser,
         getUser,
-        getAllUser
+        getAllUser,
+        findAllUsers
     }
 }
 

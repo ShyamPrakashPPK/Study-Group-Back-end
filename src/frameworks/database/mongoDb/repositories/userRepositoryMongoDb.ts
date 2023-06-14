@@ -1,5 +1,6 @@
 import { UserInterface } from "../../../../types/userInterface";
 import User from "../models/userModel"
+import { ObjectId } from 'mongodb';
 
 
 export const userRepositoryMongoDB = () => {
@@ -26,7 +27,13 @@ export const userRepositoryMongoDB = () => {
         await User.findById(id)
 
     const getAllUser = async () => {
+        console.log("reached at get all users");
+        
         await User.find()        
+    }
+
+    const findAllUsers = (id:string) => {
+        return User.find({ _id: { $ne: new ObjectId(id) } });
     }
 
 
@@ -38,7 +45,8 @@ export const userRepositoryMongoDB = () => {
         addUser,
         getUserById,
         getUser,
-        getAllUser
+        getAllUser,
+        findAllUsers
     };
 }
 

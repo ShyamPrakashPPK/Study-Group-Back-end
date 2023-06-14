@@ -8,16 +8,13 @@ import errorHandlingMiddleware from './frameworks/webserver/middlewares/errorHan
 import AppError from './utils/appError';
 import { authService } from './frameworks/services/authService';
 import configKeys from './config';
-import { Server as SocketIOServer, Socket } from 'socket.io';
-
-
+import socketioConfig from './frameworks/services/socketio';
 
 
 const app: Application = express();
 
 const server = http.createServer(app);
 
-const io = new SocketIOServer();
 
 
 
@@ -26,6 +23,9 @@ connectDB();
 
 //configuring express
 expressConfig(app)
+
+//socket.io config
+socketioConfig(server)
 
 //setting routes for each endpoint
 routes(app)
@@ -39,18 +39,6 @@ app.all('*', (req, res, next: NextFunction) => {
 });
 
 
-
-
-io.on('connection', (socket: Socket) => {
-    socket.on('join', (data) => {
-        socket.join(data.room);
-        socket.broadcast.to(data.room).emit('user joined');
-    });
-
-    socket.on('message', (data) => {
-        io.to(data.room).emit('new message', { user: data.user, message: data.message });
-    });
-});
 
 
 serverConfig(server).startServer();

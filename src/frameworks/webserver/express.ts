@@ -5,14 +5,14 @@ import cookieParser from 'cookie-parser';
 import mongoSanitize from 'express-mongo-sanitize';
 
 
-const corsOptions = {
-    origin: 'http://localhost:4200',
-    credentials: true,//access-control-allow-credentials:true
-    optionSuccessStatus: 200
-};
+// const corsOptions = {
+//     origin: 'http://localhost:4200',
+//     credentials: true,//access-control-allow-credentials:true
+//     optionSuccessStatus: 200
+// };
 
 const expressConfig = (app: Application) => {
-    app.use(cors(corsOptions));
+    app.use(cors());
     app.use(morgan('common'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
