@@ -12,7 +12,7 @@ export const userRegister = async (
     authService: ReturnType<AuthServiceInterface>
 ) => {
     console.log("reached here");
-    
+
     user.email = user.email.toLowerCase();
     const isExitingEmail = await userRepository.getUserByEmail(user.email);
     if (isExitingEmail) {
@@ -20,19 +20,34 @@ export const userRegister = async (
     }
     user.password = await authService.encryptPassword(user.password);
     const { _id: userId } = await userRepository.addUser(user);
+
     const token = authService.generateToken(userId.toString());
-    return token;
+
+    console.log("reached at user auth",token,"<--token generated",user );
+    
+    const userData = {
+        FirstName: user.firstName,
+        LastName:user.lastName,
+        Email: user.email,
+        tocken: token,
+    };
+    return {
+        status: true,
+        message: "user exist",
+        tocken: token,
+        user: userData,
+    };
 }
 
-export const userLogin = async(
+export const userLogin = async (
     email: string,
     password: string,
     userRepository: ReturnType<UserDbInterface>,
-    authService:ReturnType<AuthServiceInterface>
+    authService: ReturnType<AuthServiceInterface>
 ) => {
     const user: UserInterface | null = await userRepository.getUserByEmail(email)
     if (!user) {
-        throw new AppError("this user doesn't exist",HttpStatus.UNAUTHORIZED)
+        throw new AppError("this user doesn't exist", HttpStatus.UNAUTHORIZED)
     }
     const isPasswordCorrect = await authService.comparePassword(password, user.password)
     if (!isPasswordCorrect) {

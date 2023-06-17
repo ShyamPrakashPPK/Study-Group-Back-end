@@ -1,0 +1,9 @@
+export default function blog(...args:any) {
+    return {
+        getTitle: () => args[0].title,
+        getDetails: () => args[0].details,
+        getDate: () => args[0].date,
+        getUser: () => args[0].user,
+        getTags: () => args[0].tags
+    }
+}

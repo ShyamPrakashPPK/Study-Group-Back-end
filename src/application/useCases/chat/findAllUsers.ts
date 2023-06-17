@@ -1,13 +1,12 @@
-import { HttpStatus } from "../../../types/httpStatus";
 
 
-export default function findAllUsers(id:any, userRepository:any) { 
-    if (!id) {
-        const error = new Error('id is required');
-        throw error;
-    }
+export default function findAllUsers( userRepository: any) { 
+    
+    console.log("reached");
+    
+ 
 
-    return userRepository.findAllUsers(id).then((users:any) => { 
+    return userRepository.findAllUsers().then((users:any) => { 
         try {
             if (!users) {
                 const error = new Error('No user found')

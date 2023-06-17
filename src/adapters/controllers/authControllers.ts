@@ -9,6 +9,7 @@ import { AuthServiceInterface } from "../../application/services/authServiceInte
 import { UserDbInterface } from "../../application/repositories/userDbRepository ";
 import { UserRepositoryMongoDB } from "../../frameworks/database/mongoDb/repositories/userRepositoryMongoDb";
 import { userLogin, userRegister } from "../../application/useCases/auth/userAuth";
+import { findByEmail } from "../../application/useCases/user/findByEmail";
 
 
 const authController = (
@@ -29,31 +30,37 @@ const authController = (
         const { email, password }: { email: string, password: string } = req.body
         const token = await adminLogin(email, password, dbRepositoryAdmin, authService)
         res.json({
-            status: "sucess",
+            status: "success",
             message: "admin verified",
             token,
         })
     })
 
     const registerUser = asyncHandler(async (req: Request, res: Response) => {
-        console.log("reached at register user");
-        
         const user: { firstName: string, lastName: string, email: string, password: string } = req.body
         const token = await userRegister(user, dbRepositoryUser, authService)
+        const userReturn = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+        };
         res.json({
             status: "sucess",
             message: "user registration sucessfull",
-            token
+            token,
+            userReturn
         })
     })
     
     const loginUser = asyncHandler(async (req: Request, res: Response) => {
         const { email, password }: { email: string, password: string } = req.body;
         const token = await userLogin(email, password, dbRepositoryUser, authService)
+        const user = await findByEmail(email, dbRepositoryUser);        
         res.json({
             status: "sucess",
             message: "user verified",
-            token
+            token,
+            user
         })
     })
 
